@@ -10,11 +10,15 @@ public class ChatClient {
 
     public static void main(String[] args) {
         try {
+            // Connect to the server
             Socket socket = new Socket(SERVER_HOST, SERVER_PORT);
+
+            // Set up input and output streams for communication
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
 
+            // Request and send the username to the server
             System.out.print("Enter your username: ");
             String username = console.readLine();
             out.println(username);
@@ -26,7 +30,7 @@ public class ChatClient {
                     try {
                         String message;
                         while ((message = in.readLine()) != null) {
-                            System.out.println(message);
+                            System.out.println(message); // Print received messages to console
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -38,10 +42,10 @@ public class ChatClient {
             // Main thread for sending messages to the server
             String input;
             while ((input = console.readLine()) != null) {
-                out.println(input);
+                out.println(input); // Send input messages to the server
             }
 
-            socket.close();
+            socket.close(); // Close the socket when done
         } catch (Exception e) {
             e.printStackTrace();
         }

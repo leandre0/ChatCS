@@ -56,7 +56,6 @@ class ChatServer:
     def broadcast(self, message):
         for client_socket in self.clients.keys():
             client_socket.send(message)
-        print(message.decode(ENCODING))  # Add this line to print the broadcasted message to server console
 
 
 if __name__ == '__main__':

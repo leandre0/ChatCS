@@ -50,13 +50,12 @@ class ChatServer:
                 client_socket.close()
                 username = self.clients.pop(client_socket)
                 self.broadcast('{} has left the chat.'.format(username).encode(ENCODING))
-                print('{} has left the chat.'.format(username))  # Add this line to print user disconnection to server console
+                print('{} has left the chat.'.format(username))
                 break
 
     def broadcast(self, message):
         for client_socket in self.clients.keys():
             client_socket.send(message)
-        print(message.decode(ENCODING))  # Add this line to print the broadcasted message to server console
 
 
 if __name__ == '__main__':
