@@ -13,6 +13,7 @@ class ChatServer:
     def __init__(self):
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.clients = {}  # Stores connected clients as key-value pairs (client_socket: username)
+        self.log_file = None  # Log file object
 
     def start(self):
         self.server_socket.bind((HOST, PORT))
@@ -36,12 +37,23 @@ class ChatServer:
         # Broadcast user connection
         self.broadcast('{} has joined the chat.'.format(username).encode(ENCODING))
 
+        # Log file name with timestamp
+        timestamp = time.strftime('%d-%m-%Y--%H:%M', time.localtime())
+        log_file_name = '{}--log.txt'.format(timestamp)
+        self.log_file = open(log_file_name, 'a')
+
         while True:
             try:
                 message = client_socket.recv(BUFFER_SIZE).decode(ENCODING).strip()
                 if message:
-                    # Broadcast message to all clients
-                    self.broadcast('{}: {}'.format(username, message).encode(ENCODING))
+                    # Add timestamp, username, and user IP to the message
+                    timestamp = time.strftime('%d-%m-%Y %H:%M:%S', time.localtime())
+                    user_ip = client_socket.getpeername()[0]
+                    log_message = '[{}] {} ({}): {}'.format(timestamp, username, user_ip, message)
+                    self.log_file.write(log_message + '\n')
+                    self.log_file.flush()
+                    broadcast_message = '[{}] {}: {}'.format(timestamp, username, message)
+                    self.broadcast(broadcast_message.encode(ENCODING))
                 else:
                     # Empty message indicates client has disconnected
                     raise Exception()
@@ -51,11 +63,13 @@ class ChatServer:
                 username = self.clients.pop(client_socket)
                 self.broadcast('{} has left the chat.'.format(username).encode(ENCODING))
                 print('{} has left the chat.'.format(username))
+                self.log_file.close()
                 break
 
     def broadcast(self, message):
         for client_socket in self.clients.keys():
             client_socket.send(message)
+            print(message.decode(ENCODING))
 
 
 if __name__ == '__main__':
