@@ -1,0 +1,2 @@
+06-04-2023 22:41:56 - Outgoing connection: Socket[addr=/127.0.0.1,port=55083,localport=5555]
+06-04-2023 22:41:59 - Jean: Jean has joined the chat.

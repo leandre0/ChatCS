@@ -1,0 +1,12 @@
+06-04-2023 22:40:03 - Outgoing connection: Socket[addr=/127.0.0.1,port=55013,localport=5555]
+06-04-2023 22:40:06 - Elman: Elman has joined the chat.
+06-04-2023 22:40:11 - Outgoing connection: Socket[addr=/127.0.0.1,port=55024,localport=5555]
+06-04-2023 22:40:15 - Jean: Jean has joined the chat.
+06-04-2023--22-40 Jean: Hey
+06-04-2023 22:40:18 - Jean: Jean: Hey
+06-04-2023--22-40 Elman: Coucou
+06-04-2023 22:40:22 - Elman: Elman: Coucou
+06-04-2023--22-41 Elman: test
+06-04-2023 22:41:06 - Elman: Elman: test
+06-04-2023--22-41 Jean: test
+06-04-2023 22:41:08 - Jean: Jean: test
