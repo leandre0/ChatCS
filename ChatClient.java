@@ -8,9 +8,26 @@ public class ChatClient {
 
     public ChatClient(String serverHost, int serverPort) {
         try {
-            socket = new Socket(serverHost, serverPort);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new PrintWriter(socket.getOutputStream(), true);
+            BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
+            System.out.print("Enter your username: ");
+            String username = userInput.readLine(); // Get username from user
+            while (true) {
+                try {
+                    socket = new Socket(serverHost, serverPort);
+                    in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    out = new PrintWriter(socket.getOutputStream(), true);
+                    System.out.println("Connected to server: " + serverHost + ":" + serverPort);
+                    out.println(username); // Send username to server
+                    break; // break out of the loop if connection is successful
+                } catch (IOException e) {
+                    System.out.println("Failed to connect to server. Retrying in 5 seconds...");
+                    try {
+                        Thread.sleep(5000); // wait for 5 seconds before retrying
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -18,12 +35,6 @@ public class ChatClient {
 
     public void start() {
         try {
-            BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
-
-            System.out.print("Enter your username: ");
-            String username = userInput.readLine();
-            out.println(username);
-
             // Start a separate thread to receive messages from the server
             Thread receiveThread = new Thread(new Runnable() {
                 @Override
@@ -40,6 +51,7 @@ public class ChatClient {
             });
             receiveThread.start();
 
+            BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
             String userMessage;
             while (true) {
                 userMessage = userInput.readLine();

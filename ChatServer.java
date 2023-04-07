@@ -7,7 +7,7 @@ import java.util.Date;
 public class ChatServer {
     private ServerSocket serverSocket;
     private ArrayList<ClientHandler> clients;
-    FileWriter logWriter;
+    private FileWriter logWriter;
 
     public ChatServer(int port) throws IOException {
         serverSocket = new ServerSocket(port);
@@ -29,6 +29,10 @@ public class ChatServer {
                 ClientHandler clientHandler = new ClientHandler(socket, this);
                 clients.add(clientHandler);
                 clientHandler.start();
+
+                // Broadcast message to all clients that a new client has connected
+                String message = "New client connected : ";
+                broadcast(message, null);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -38,18 +42,22 @@ public class ChatServer {
     public void broadcast(String message, ClientHandler sender) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String currentDateAndTime = sdf.format(new Date());
-        String logMessage = currentDateAndTime + " - " + sender.getUsername() + ": " + message + "\n";
+        String logMessage = currentDateAndTime + " - " + message + "\n";
         System.out.print(logMessage);
         logToFile(logMessage);
         for (ClientHandler client : clients) {
             if (client != sender) {
-                client.sendMessage(sender.getUsername() + ": " + message);
+                client.sendMessage(message);
             }
         }
     }
 
     public void removeClient(ClientHandler client) {
         clients.remove(client);
+
+        // Broadcast message to all clients that a client has disconnected
+        String message = "Client disconnected: " + client.getUsername();
+        broadcast(message, null);
     }
 
     public void logOutgoingConnection(Socket socket) throws IOException {
@@ -82,5 +90,13 @@ public class ChatServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void logIncomingConnection(Socket socket, String username) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String currentDateAndTime = sdf.format(new Date());
+        String logMessage = currentDateAndTime + " - Incoming connection: " + socket + " - " + username + "\n";
+        System.out.print(logMessage);
+        logToFile(logMessage);
     }
 }

@@ -1,0 +1,5 @@
+07-04-2023 14:42:02 - Outgoing connection: Socket[addr=/127.0.0.1,port=52179,localport=5555]
+07-04-2023 14:42:02 - New client connected : 
+07-04-2023 14:42:02 - Incoming connection: Socket[addr=/127.0.0.1,port=52179,localport=5555] - Elman
+07-04-2023 14:42:09 - Elman: test
+07-04-2023 14:42:13 - Client disconnected: Elman
