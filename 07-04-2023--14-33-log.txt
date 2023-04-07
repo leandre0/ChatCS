@@ -1,7 +1,0 @@
-07-04-2023 14:33:13 - Outgoing connection: Socket[addr=/127.0.0.1,port=52102,localport=5555]
-07-04-2023 14:33:13 - New client connected: null
-07-04-2023 14:33:13 - Elman has joined the chat.
-07-04-2023--14-33 test
-07-04-2023 14:33:29 - test
-07-04-2023--14-33 nice
-07-04-2023 14:33:32 - nice

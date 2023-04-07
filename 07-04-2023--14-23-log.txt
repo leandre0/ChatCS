@@ -1,6 +1,0 @@
-07-04-2023 14:23:11 - Outgoing connection: Socket[addr=/127.0.0.1,port=52008,localport=5555]
-07-04-2023 14:23:11 - Elman: Elman has joined the chat.
-07-04-2023--14-23 test
-07-04-2023 14:23:15 - Elman: test
-07-04-2023--14-23 test
-07-04-2023 14:23:17 - Elman: test

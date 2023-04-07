@@ -9,8 +9,19 @@ public class ChatClient {
     public ChatClient(String serverHost, int serverPort) {
         try {
             BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
-            System.out.print("Enter your username: ");
-            String username = userInput.readLine(); // Get username from user
+            String username;
+            while (true) {
+                System.out.print("Enter your username (max 20 characters): ");
+                username = userInput.readLine(); // Get username from user
+                if (username.trim().isEmpty()) {
+                    System.out.println("Username cannot be blank.");
+                } else if (username.length() > 20) {
+                    System.out.println("Username exceeds 20 characters. Please enter a valid username.");
+                } else {
+                    break;
+                }
+            }
+
             while (true) {
                 try {
                     socket = new Socket(serverHost, serverPort);
@@ -57,8 +68,11 @@ public class ChatClient {
                 userMessage = userInput.readLine();
                 if (userMessage.equalsIgnoreCase("exit")) {
                     break;
+                } else if (userMessage.trim().isEmpty()) {
+                    System.out.println("Message cannot be blank.");
+                } else {
+                    out.println(userMessage);
                 }
-                out.println(userMessage);
             }
 
             socket.close();
@@ -68,7 +82,7 @@ public class ChatClient {
     }
 
     public static void main(String[] args) {
-        String serverHost = "localhost";
+        String serverHost = "192.168.1.140";
         int serverPort = 5555;
 
         ChatClient chatClient = new ChatClient(serverHost, serverPort);
